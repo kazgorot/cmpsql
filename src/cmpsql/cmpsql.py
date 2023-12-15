@@ -547,8 +547,5 @@ def manual(args):
         print(cmp.get_results(args.tag))
 
 
-
-
-print('base222',__name__)
 if __name__ == '__main__':
     pass
