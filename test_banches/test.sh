@@ -26,7 +26,6 @@ rm -f base.db*
 python -m cmpsql --log-level INFO -m -f1 A0.csv -t x -a load
 python -m cmpsql --log-level INFO -m -f2 B0.csv -t x -a load --append
 
-
 time python -m cmpsql -t x -m -a run --keys1 aA cC --keys2 AA CC
 
 
