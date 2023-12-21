@@ -221,8 +221,8 @@ def tb(tag): return f"{tag}_B"
 
 
 class CmpSql:
-    def __init__(self, tag_name,
-                 file1=None, file2=None, keys1=[], keys2=[],
+    def __init__(self, tag_name=None,
+                 files_1=None, files_2=None, keys1=[], keys2=[],
                  fields1=[],
                  fields2=[],
                  path=':memory:',
@@ -239,14 +239,29 @@ class CmpSql:
 
         if not manually:
 
-            self.auto(tag_name, file_a=file1, file_b=file2,
+            self.auto(tag_name, files_a=files_1, files_b=files_2,
                       keys_a=keys1, keys_b=keys2,
                       known_a=fields1, known_b=fields2)
 
-    def auto(self, tag_name, file_a, file_b, keys_a, keys_b, known_a, known_b):
+    def auto(self, tag_name, files_a, files_b, keys_a, keys_b, known_a, known_b):
         # load and test
-        self.read_csv('A', tag_name, file_a)
-        self.read_csv('B', tag_name, file_b)
+        # 1
+        if isinstance(files_a, list):
+            append = False
+            for file_a in files_a:
+                self.read_csv('A', tag_name, file_a, append=append)
+                append = True
+        else:
+            self.read_csv('A', tag_name, files_a)
+
+        # 2
+        if isinstance(files_a, list):
+            append = False
+            for file_b in files_b:
+                self.read_csv('B', tag_name, file_b, append=append)
+                append = True
+        else:
+            self.read_csv('B', tag_name, files_b)
 
         self.start(tag_name, keys_a, keys_b, known_a, known_b)
 
